@@ -43,13 +43,14 @@ Now the details of each step are:
 ### 1. Get SIFT points and descriptors
 * Prerequired packages: [Anaconda python 3.6](https://www.anaconda.com/download/)<br>
 * Install [cyvlfeat](https://github.com/menpo/cyvlfeat) for fetching sift features: `conda install -c menpo cyvlfeat`<br>
-We are only using the `sift` function.
+I only use the `sift` function.
 
 <br>
 
 
-### 2. Matching SIFT Descriptors 
-> Edit `SIFTMatcher.py` to calculate the Euclidean distance between a given SIFT descriptor from image 1 and all SIFT descriptors from image 2. Then use this to determine if there’s a good match: if the distance to the closest vector is significantly (by a factor which is given) smaller than the distance to the second-closest, we call it a match. The output of the function is an array where each row holds the indices of one pair of matching descriptors.
+### 2. Matching SIFT Descriptors
+* Install [sklearn](https://scikit-learn.org/stable/) for matching SIFT descriptors using Kd-tree.<br>
+> The Euclidean distance was calculated between a given SIFT descriptor from image 1 and all SIFT descriptors from image 2. Rather than directly utilizing k-nearest neighbors algorithm (O(N) complexity) to find the matcher, I use kd-tree (O(logN) complexity) to achieve this. If the distance to the closest vector is significantly (by a factor which is given) smaller than the distance to the second-closest, we call it a match. The output of the function is an array where each row holds the indices of one pair of matching descriptors.
 Remember, Euclidean distance between vectors \\(a\in R^n\\) and \\(b\in R^n\\) is
 \\[
 \sqrt{(a[1]-b[1])^2+(a[2]-b[2])^2+...+(a[n]-b[n])^2}
@@ -78,7 +79,6 @@ where \\(\|| \;\||_2\\) is the Euclidean distance, as defined above.
 <br>
 
 ### 5. Stitching Multiple Images
-#### a. Stitching ordered sequence of images
 > Given a sequence of m images (e.g., yosemite\*.jpg)
 \\[
 Img_1, Img_2,...,Img_m
@@ -86,7 +86,8 @@ Img_1, Img_2,...,Img_m
 our code takes every neighboring pair of images and computes the transformation matrix which converts points from the coordinate frame of \\(Img_i\\) to the frame of \\(Img_{i+1}\\). (It does this by simply calling your code on each pair.)
 We then select a reference image \\(Img_r\\). We want our final panorama image to be in the coordinate frame of \\(Img_r\\). So, for each \\(Img_i\\) that is not the reference image, we need a transformation matrix that will convert points in frame i to frame ref. <br>
 
-#### b. Stitching unordered sequence of images (future work)
+## Future Work
+### Stitching unordered sequence of images
 > Given an unordered set of m images (e.g., Rainier\*.jpg), how can we find the 1. reference image, and 2 the most robust transformation to the reference image (bundle adjustment).<br>
 **Described in [panoramic image stitching paper](http://www.cs.ubc.ca/~lowe/papers/07brown.pdf).**
 <br>
