@@ -93,4 +93,4 @@ We then select a reference image \\(Img_r\\). We want our final panorama image t
 <br>
 
 ## Credits
-	Assignment modified by Wen-Chuan Chen based on Min Sun, Fei-Fei Li and Ali Farhadi's previous developed projects
+	Project modified by Wen-Chuan Chen based on Min Sun, Fei-Fei Li and Ali Farhadi's previous developed projects
